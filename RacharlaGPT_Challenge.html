@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RacharlaGPT Challenge</title>
+<style>
+body{margin:0;background:linear-gradient(135deg,#10172a,#172554);color:white;font-family:system-ui;padding:18px;min-height:100vh;display:grid;place-items:center}main{width:min(700px,100%);background:#ffffff14;border:1px solid #ffffff22;border-radius:24px;padding:22px;box-shadow:0 18px 60px #0006}h1{margin:0 0 6px;font-size:clamp(28px,7vw,44px)}.sub{opacity:.8;margin-bottom:20px}.top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:14px 0}.badge{background:#ffffff18;padding:8px 12px;border-radius:12px}.card{background:white;color:#111827;border-radius:20px;padding:22px}.cat{font-size:13px;font-weight:700;opacity:.55;text-transform:uppercase}.q{font-size:clamp(21px,5vw,30px);font-weight:800;line-height:1.2;margin:12px 0 20px}.answers{display:grid;gap:10px}button{font:inherit;cursor:pointer}.ans{background:white;border:2px solid #e5e7eb;text-align:left;padding:14px;border-radius:14px}.ans:hover{border-color:#4f46e5}.correct{background:#dcfce7!important;border-color:#16a34a!important}.wrong{background:#fee2e2!important;border-color:#dc2626!important}.next,.start{border:0;background:#4f46e5;color:white;padding:14px 20px;border-radius:14px;font-weight:800}.next{width:100%;margin-top:10px;display:none}.center{text-align:center;padding:25px 5px}.small{font-size:13px;opacity:.7;margin-top:15px}
+</style></head><body><main><h1>RacharlaGPT Challenge</h1><div class="sub">Think fast. Learn something. Beat your score.</div>
+<section id="home" class="center"><div class="top"><span class="badge">🎯 10 Questions</span><span class="badge">⚡ Fast Challenge</span></div><p>Answer 10 quick questions and see how high you can score.</p><button class="start" onclick="start()">Start Challenge</button><div class="small">100% browser-based — no installation or API required.</div></section>
+<section id="game" style="display:none"><div class="top"><span class="badge" id="prog"></span><span class="badge">Score: <b id="score">0</b></span></div><div class="card"><div class="cat" id="cat"></div><div class="q" id="q"></div><div class="answers" id="answers"></div><div id="fb" style="min-height:28px;margin-top:14px;font-weight:800"></div><button class="next" id="next" onclick="next()">Next Question →</button></div></section>
+<section id="result" class="center" style="display:none"><div style="font-size:52px">🏆</div><h2>Challenge Complete!</h2><p id="final"></p><button class="start" onclick="start()">Play Again</button></section>
+</main>
+<script>
+const bank=[
+["Science","Which planet is known as the Red Planet?",["Mars","Venus","Jupiter","Mercury"],0],
+["India","What is the capital of Telangana?",["Warangal","Hyderabad","Vijayawada","Visakhapatnam"],1],
+["Technology","What does HTML mainly define?",["Web page structure","Computer hardware","Internet speed","Database passwords"],0],
+["Science","How many sides does a hexagon have?",["5","6","7","8"],1],
+["World","Which is the largest ocean on Earth?",["Atlantic","Indian","Pacific","Arctic"],2],
+["Technology","Which language runs directly in a web browser?",["JavaScript","C","Java","SQL"],0],
+["India","Which festival is associated with Lord Ganesha?",["Diwali","Ganesh Chaturthi","Holi","Onam"],1],
+["Science","What gas do humans need to breathe?",["Oxygen","Helium","Hydrogen","Neon"],0],
+["Logic","If 2 + 3 × 4 = ?",["20","14","24","18"],1],
+["Technology","What does AI stand for?",["Automated Internet","Artificial Intelligence","Advanced Input","Applied Information"],1],
+["Science","What is H₂O commonly called?",["Salt","Oxygen","Water","Hydrogen"],2],
+["World","How many continents are commonly taught?",["5","6","7","8"],2]
+];
+let qs=[],i=0,score=0,locked=false;
+function start(){qs=[...bank].sort(()=>Math.random()-.5).slice(0,10);i=0;score=0;home.style.display="none";result.style.display="none";game.style.display="block";render()}
+function render(){locked=false;let x=qs[i];prog.textContent=`Question ${i+1}/10`;scoreEl();cat.textContent=x[0];q.textContent=x[1];fb.textContent="";answers.innerHTML="";x[2].forEach((t,n)=>{let b=document.createElement("button");b.className="ans";b.textContent=t;b.onclick=()=>pick(n,b);answers.appendChild(b)});nextBtn.style.display="none"}
+function scoreEl(){document.getElementById("score").textContent=score}
+function pick(n,b){if(locked)return;locked=true;let x=qs[i];document.querySelectorAll(".ans").forEach((z,k)=>{z.disabled=true;if(k===x[3])z.classList.add("correct")});if(n===x[3]){score+=10;fb.textContent="✅ Correct! +10 points"}else{b.classList.add("wrong");fb.textContent="❌ Not quite. Correct answer is highlighted."}scoreEl();nextBtn.style.display="block"}
+function next(){i++;i<qs.length?render():finish()}
+function finish(){game.style.display="none";result.style.display="block";final.textContent=`${score}/100 — ${score===100?"Perfect score! 🔥":score>=70?"Excellent challenge! 👏":score>=50?"Good job! 💪":"Keep practicing! 🚀"}`}
+const nextBtn=document.getElementById("next");
+</script></body></html>
